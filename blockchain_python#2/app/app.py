@@ -81,11 +81,21 @@ def register_and_broadcast_node():
 
 @app.route('/register-node', methods=['POST']) # 새로운 노드를 연결하는 요청 받은 노드가 원래 연결되어 있던 노드에게 새로운 노드를 등록하는 요청 보내는 API
 def register_node():
+    # for network_node_url in bitcoin.network_nodes:
     new_node_url = request.json['newNodeUrl']
-    node_not_already_present = #채우시오 : new_node_url이 network_noeds에 없으면 true (type boolean)
-    not_current_node = #채우시오 : current_node_url이 new_node_url이 아니면 true(type boolean)
+    if new_node_url not in bitcoin.network_nodes:
+        node_not_already_present =  True
+    else : node_not_already_present = False
+    #채우시오 : new_node_url이 network_noeds에 없으면 true (type boolean)
+    # not_current_node = 
+    #채우시오 : current_node_url이 new_node_url이 아니면 true(type boolean)
+    if bitcoin.current_node_url == new_node_url :
+        not_current_node = False
+    else : 
+        not_current_node = True
     if node_not_already_present and not_current_node:#두 가지 조건을 모두 만족하면 실행
         #새로운 노드 network_node에 추가
+        bitcoin.network_node.append(new_node_url)
     return jsonify({'note': 'New node registered successfully.'})
 
 
@@ -93,11 +103,22 @@ def register_node():
 def register_nodes_bulk():
     all_network_nodes = request.json['allNetworkNodes']
     for network_node_url in all_network_nodes:
-        node_not_already_present = #채우시오 : new_node_url이 network_noeds에 없으면 true (type boolean)
-        not_current_node = #채우시오 : current_node_url이 new_node_url이 아니면 true(type boolean)
-        if node_not_already_present and not_current_node: #두 가지 조건을 모두 만족하면 실행
+        node_not_already_present = False
+        if network_node_url not in bitcoin.network_nodes:
+            node_not_already_present = True
+        else:
+            node_not_already_present = False
+        #채우시오 : new_node_url이 network_noeds에 없으면 true (type boolean)
+        not_current_node = False
+        if bitcoin.current_node_url == network_node_url:
+            not_current_node = False
+        else:
+            not_current_node = True
+        #채우시오 : current_node_url이 new_node_url이 아니면 true(type boolean)
+        if node_not_already_present and not_current_node: 
+            #두 가지 조건을 모두 만족하면 실행
             #새로운 노드 network_node에 추가
-
+            bitcoin.network_node.append(network_node_url)
     return jsonify({'note': 'Bulk registration successful.'}) 
 
 @app.route('/transaction/broadcast', methods=['POST'])
