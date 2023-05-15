@@ -173,7 +173,7 @@ if __name__ == "__main__":
     if len(sys.argv) > 2:
         current_node_url = sys.argv[2]
     else:
-        current_node_url = f"http://localhost:{port}"
+        current_node_url = f"http://3.35.22.69:{port}"
     
     bitcoin = Blockchain(current_node_url)  # 현재 노드 URL 전달
     app.run(host="0.0.0.0", port=port)
